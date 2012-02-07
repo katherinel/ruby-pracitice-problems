@@ -10,9 +10,9 @@ class Grade
   end
   
   def grade_sign(input_grade) 
-    if input_grade[1].match(/\+/)
+    if input_grade[1,1].match(/\+/)
       2
-    elsif input_grade[1].empty? #if it's a straight letter
+    elsif input_grade[1,1].empty? #if it's a straight letter
       1
     else
       0
@@ -20,7 +20,7 @@ class Grade
   end
   
   def <=>(another_grade)
-      if self.input[0] == another_grade.input[0]
+      if self.input[0,1] == another_grade.input[0,1]
         if grade_sign(self.input) > grade_sign(another_grade.input)
           1
         elsif grade_sign(self.input) < grade_sign(another_grade.input)
@@ -28,7 +28,7 @@ class Grade
         else
           0
         end
-      elsif self.input[0] > another_grade.input[0]
+      elsif self.input[0,1] > another_grade.input[0,1]
         -1
       else
         1
@@ -39,8 +39,12 @@ end
 #puts Grade.new('AB+')
 # => error
 
-#puts Grade.new('B+') > Grade.new('D+')
+#puts Grade.new('B+') > Grade.new('b+')
 # => true
 
-#puts [Grade.new('b-'), Grade.new('A+'), Grade.new('F')].sort
+
+new_array = [Grade.new('b-'), Grade.new('A+'), Grade.new('F')].sort
+new_array.each do |g|
+	print g.input+" "
+end
 # => F, B-, A+
